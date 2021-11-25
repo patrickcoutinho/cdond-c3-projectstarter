@@ -55,11 +55,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build]
+          keys: [backend-build]
       - run:
-          name: Run frontend tests
+          name: Run backend tests
           command: |
-            cd frontend
+            cd backend
             npm i
             npm run test
 
