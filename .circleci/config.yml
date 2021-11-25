@@ -63,6 +63,32 @@ jobs:
             npm i
             npm run test
 
+  scan-frontend:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: Scan frontend
+          command: |
+            cd frontend
+            npm i
+            npm audit --audit-level=critical
+
+  scan-backend:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: Scan backend
+          command: |
+            cd backend
+            npm i
+            npm audit --audit-level=critical
+
 workflows:
   default:
     jobs:
