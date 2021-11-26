@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.5.0
+
 defaults: &defaults
   docker:
     - image: circleci/node:13.8.0
@@ -14,6 +17,7 @@ jobs:
       - run:
           name: Build frontend
           command: |
+            exit 1
             cd frontend
             npm i
             npm run build
