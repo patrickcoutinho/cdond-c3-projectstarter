@@ -166,6 +166,14 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible openssh
+            pip3 install --upgrade pip \
+                && pip3 install --no-cache-dir awscli
       - add_ssh_keys:
           fingerprints: ["d1:1d:f0:b7:dd:e5:c6:58:f6:24:22:9a:18:0c:b0:b0"]
       - run:
@@ -177,12 +185,6 @@ jobs:
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
             ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible openssh
       - run:
           name: Configure server
           command: |
