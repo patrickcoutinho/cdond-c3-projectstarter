@@ -167,7 +167,16 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["05:f8:55:c8:2e:f3:f5:39:bb:1c:96:82:16:90:b9:88"]
+          fingerprints: ["d1:1d:f0:b7:dd:e5:c6:58:f6:24:22:9a:18:0c:b0:b0"]
+      - run:
+          name: Add server to known hosts
+          command: |
+            IP=$(aws ec2 describe-instances \
+                --region us-east-1 \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:project,Values=udapeople" \
+                --output text)
+            ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
       - attach_workspace:
           at: ~/
       - run:
