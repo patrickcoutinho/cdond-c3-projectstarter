@@ -28,6 +28,14 @@ commands:
             aws cloudformation delete-stack \
                 --stack-name udapeople-frontend-<<parameters.id>> \
                 --region us-east-1
+  revert-migrations:
+    description: Revert migrations on fail.
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            npm run migrations:revert
 
 jobs:
   build-frontend:
@@ -251,6 +259,7 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
 
   deploy-backend:
     docker:
@@ -301,6 +310,7 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
 
   smoke-test:
     docker:
@@ -347,6 +357,7 @@ jobs:
               return 1
       - destroy-environment:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
 
 workflows:
   default:
