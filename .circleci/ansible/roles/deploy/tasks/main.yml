@@ -1,0 +1,10 @@
+---
+- name: npm install
+  shell: |
+    npm install
+- name: pm2 stop default
+  shell: |
+    pm2 stop default
+- name: Executing node
+  shell: |
+    pm2 start npm -- start
