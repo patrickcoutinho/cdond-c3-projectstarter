@@ -36,6 +36,7 @@ commands:
           when: on_fail
           command: |
             cd backend
+            npm i
             npm run migrations:revert
 
 jobs:
