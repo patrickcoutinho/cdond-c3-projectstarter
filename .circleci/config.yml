@@ -35,6 +35,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
+            cd backend
             npm run migrations:revert
 
 jobs:
