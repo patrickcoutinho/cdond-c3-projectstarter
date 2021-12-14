@@ -30,6 +30,9 @@ commands:
                 --region us-east-1
   revert-migrations:
     description: Revert migrations on fail.
+    parameters:
+      workflow_id:
+        type: string
     steps:
       - run:
           name: Revert migrations
